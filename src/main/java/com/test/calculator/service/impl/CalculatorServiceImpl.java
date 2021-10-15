@@ -11,4 +11,9 @@ public class CalculatorServiceImpl implements CalculatorService {
 	public Long sum(Long number1, Long number2) {
 		return number1 + number2;
 	}
+
+	@Override
+	public Long subtract(Long number1, Long number2) {
+		return number1 - number2;
+	}
 }

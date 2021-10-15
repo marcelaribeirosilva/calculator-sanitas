@@ -27,8 +27,6 @@ public class CalculatorApplicationTest {
 	
 	@Autowired
 	private MockMvc mockMvc;
-	
-	private CalculatorServiceImpl calculatorServiceImpl = new CalculatorServiceImpl();
 
 	@Test
 	public void testSum_OK() throws Exception {
@@ -56,10 +54,44 @@ public class CalculatorApplicationTest {
 	}
 
 	@Test
-	public void testSum_KO_400() throws Exception {
+	public void testSum_KO() throws Exception {
 
 		mockMvc.perform(MockMvcRequestBuilders.get("/calculator/sum/a/b").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest()).andExpect(content().string(containsString("Message")));
+
+	}
+	
+	@Test
+	public void testSubtraction_OK() throws Exception {
+		
+		calculatorService = new CalculatorServiceImpl();
+
+		Long number1 = Long.valueOf(3);
+		Long number2 = Long.valueOf(2);
+
+		assertTrue(calculatorService.subtract(number1, number2) == 1, () -> "Subtraction should be equal to 1");
+
+	}
+	
+	@Test
+	public void testSubtractionUrl_OK() throws Exception {
+
+		Long number1 = Long.valueOf(0);
+		Long number2 = Long.valueOf(0);
+		Long result = Long.valueOf(0);
+
+		Mockito.when(calculatorService.subtract(number1, number2)).thenReturn(result);
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/calculator/subtract/1/2").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk()).andExpect(content().string(containsString("Subtract Result")));
+
+	}
+
+	@Test
+	public void testSubtraction_KO() throws Exception {
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/calculator/subtract/a/b").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isBadRequest()).andExpect(content().string(containsString("Error Message")));
 
 	}
 

@@ -9,6 +9,15 @@ public interface CalculatorService {
 	 * @param number2
 	 * @return the sum result
 	 */
-	public Long sum(Long number1, Long number2);
+	Long sum(Long number1, Long number2);
+
+	/**
+	 * Method responsible for subtracting two numbers
+	 * 
+	 * @param number1
+	 * @param number2
+	 * @return the subtraction result
+	 */
+	Long subtract(Long number1, Long number2);
 
 }

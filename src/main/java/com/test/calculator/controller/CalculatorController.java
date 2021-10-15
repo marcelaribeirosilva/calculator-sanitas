@@ -30,4 +30,14 @@ public class CalculatorController {
 		return ResponseEntity.status(HttpStatus.OK).headers(headers)
 				.body("{\"Sum Result\": " + sumResult.toString() + "}");
 	}
+
+	@GetMapping(value = "/subtract/{number1}/{number2}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> subtract(@PathVariable Long number1, @PathVariable Long number2) {
+		HttpHeaders headers = new HttpHeaders();
+
+		Long subtractReult = calculatorService.subtract(number1, number2);
+
+		return ResponseEntity.status(HttpStatus.OK).headers(headers)
+				.body("{\"Subtract Result\": " + subtractReult.toString() + "}");
+	}
 }
