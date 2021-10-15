@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.test.calculator.service.CalculatorService;
 
+import io.corp.calculator.TracerImpl;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/calculator")
@@ -21,14 +23,17 @@ public class CalculatorController {
 	@Autowired
 	CalculatorService calculatorService;
 
+	TracerImpl tracerAPI = new TracerImpl();
+
 	@GetMapping(value = "/sum/{number1}/{number2}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> sum(@PathVariable Long number1, @PathVariable Long number2) {
 		HttpHeaders headers = new HttpHeaders();
 
 		Long sumResult = calculatorService.sum(number1, number2);
 
-		return ResponseEntity.status(HttpStatus.OK).headers(headers)
-				.body("{\"Sum Result\": " + sumResult.toString() + "}");
+		tracerAPI.trace("\"Sum Result\": " + sumResult);
+
+		return ResponseEntity.status(HttpStatus.OK).headers(headers).body("{\"Sum Result\": " + sumResult + "}");
 	}
 
 	@GetMapping(value = "/subtract/{number1}/{number2}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +42,9 @@ public class CalculatorController {
 
 		Long subtractReult = calculatorService.subtract(number1, number2);
 
+		tracerAPI.trace("\"Subtract Result\": " + subtractReult);
+
 		return ResponseEntity.status(HttpStatus.OK).headers(headers)
-				.body("{\"Subtract Result\": " + subtractReult.toString() + "}");
+				.body("{\"Subtract Result\": " + subtractReult + "}");
 	}
 }

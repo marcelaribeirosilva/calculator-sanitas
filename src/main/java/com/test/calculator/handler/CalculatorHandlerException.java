@@ -9,6 +9,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import io.corp.calculator.TracerImpl;
+
 @ControllerAdvice
 class CalculatorHandlerException extends ResponseEntityExceptionHandler {
 
@@ -17,8 +19,12 @@ class CalculatorHandlerException extends ResponseEntityExceptionHandler {
 			WebRequest request) {
 
 		HttpHeaders headers = new HttpHeaders();
+		
+		TracerImpl tracerAPI = new TracerImpl();
 
 		String message = String.format("'%s' should be a valid number.", ex.getValue());
+		
+		tracerAPI.trace("\"Error Message\": " + message);
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(headers)
 				.body("{\"Error Message\": \"" + message + "\"}");
