@@ -1,0 +1,13 @@
+*.class
+
+*.jar
+
+target/
+
+.metadata
+.classpath
+.settings
+.project
+
+.mvn
+
